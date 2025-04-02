@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
   ca-certificates \
   curl
 
-ARG NODE_VERSION=14.16.0
+ARG NODE_VERSION=16.20.2
 ARG NODE_PACKAGE=node-v$NODE_VERSION-linux-x64
 ARG NODE_HOME=/opt/$NODE_PACKAGE
 
