@@ -4,11 +4,20 @@ FROM ubuntu:bionic AS tiktok_signature.build
 WORKDIR /usr
 
 # 1. Install node12
-RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs \
-    npm install -g pm2
+RUN apt-get update && apt-get install -y \
+  ca-certificates \
+  curl
 
+ARG NODE_VERSION=14.16.0
+ARG NODE_PACKAGE=node-v$NODE_VERSION-linux-x64
+ARG NODE_HOME=/opt/$NODE_PACKAGE
+
+ENV NODE_PATH $NODE_HOME/lib/node_modules
+ENV PATH $NODE_HOME/bin:$PATH
+
+RUN curl https://nodejs.org/dist/v$NODE_VERSION/$NODE_PACKAGE.tar.gz | tar -xzC /opt/
+
+RUN npm install -g pm2
 
 # 2. Install WebKit dependencies
 RUN apt-get install -y libwoff1 \
